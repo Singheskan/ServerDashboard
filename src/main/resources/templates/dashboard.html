@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <title>Server Dashboard</title>
     <style>
@@ -22,10 +22,28 @@
         .status-offline {
             color: gray;
         }
+        form {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 <h1>Server Dashboard</h1>
+
+<!-- Form to toggle email notifications -->
+<form action="#" th:action="@{/update-settings}" method="post">
+    <label for="emailEnabled">Enable Email Notifications:</label>
+    <input type="checkbox" id="emailEnabled" name="emailEnabled" th:checked="${emailEnabled}">
+    <button type="submit">Save Settings</button>
+</form>
+
+<!-- Form to add new website -->
+<form action="#" th:action="@{/add-website}" method="post">
+    <label for="newWebsite">Add New Website:</label>
+    <input type="text" id="newWebsite" name="newWebsite" placeholder="https://example.com" required>
+    <button type="submit">Add Website</button>
+</form>
+
 <table>
     <thead>
     <tr>
