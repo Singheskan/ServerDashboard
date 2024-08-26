@@ -1,4 +1,4 @@
-package org.example
+package org.websitedashboard
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
