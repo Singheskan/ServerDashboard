@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Server Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .status-online {
+            color: green;
+        }
+        .status-offline {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+<h1>Server Dashboard</h1>
+<table>
+    <thead>
+    <tr>
+        <th>URL</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entry : ${urlStatuses}">
+        <td th:text="${entry.key}"></td>
+        <td>
+            <span th:if="${entry.value}" class="status-online">Online</span>
+            <span th:if="${!entry.value}" class="status-offline">Offline</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
