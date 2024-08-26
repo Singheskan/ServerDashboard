@@ -13,7 +13,7 @@ import java.net.URI
 
 @Service
 class ServerDashboardService(
-    private val mailSender: JavaMailSender,
+    private val mailSender: JavaMailSender?,
     private val restTemplate: RestTemplate,
     private val settingsService: SettingsService
 ) {
@@ -65,13 +65,21 @@ class ServerDashboardService(
         }
     }
 
+    // add website and check its availability
     fun addWebsite(newWebsite: String) {
         websiteUrls.add(newWebsite)
+        checkWebsites()
     }
 
     fun getUrlStatuses(): Map<String, Boolean> = urlStatuses
 
+
     private fun sendFailureNotification(url: String, statusCode: Any?) {
+        if (mailSender == null) {
+            println("MailSender is not configured. Email notifications are disabled.")
+            return
+        }
+
         val message = SimpleMailMessage()
         message.setTo(recipientEmail)
         message.subject = "Website Check Failed"

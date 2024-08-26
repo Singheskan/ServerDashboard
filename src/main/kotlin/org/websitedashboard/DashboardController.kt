@@ -5,6 +5,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class DashboardController(
@@ -17,6 +18,7 @@ class DashboardController(
         val urlStatuses = serverDashboardService.getUrlStatuses()
         model.addAttribute("urlStatuses", urlStatuses)
         model.addAttribute("emailEnabled", settingsService.isEmailEnabled())
+        model.addAttribute("canToggleEmail", settingsService.canToggleEmail())
         return "dashboard"
     }
 
@@ -27,8 +29,11 @@ class DashboardController(
     }
 
     @PostMapping("/add-website")
-    fun addWebsite(@RequestParam(name = "newWebsite") newWebsite: String): String {
+    @ResponseBody
+    fun addWebsite(@RequestParam(name = "newWebsite") newWebsite: String): List<Map<String, Any>> {
         serverDashboardService.addWebsite(newWebsite)
-        return "redirect:/"
+        return serverDashboardService.getUrlStatuses().map { (url, status) ->
+            mapOf("url" to url, "status" to status)
+        }
     }
 }
