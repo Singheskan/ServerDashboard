@@ -35,8 +35,13 @@
         }
     </style>
     <script>
+        /**
+         * Handles form submission for adding a new URL.
+         * Prevents the default form submission and sends an AJAX request instead.
+         * @param event - The form submission event.
+         */
         function addUrl(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
+            event.preventDefault();
             const form = event.target;
             const formData = new FormData(form);
 
@@ -46,28 +51,33 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Clear the input field
                     form.reset();
-
-                    // Update the table with the new data
                     updateTable(data);
                 })
                 .catch(error => console.error('Error:', error));
         }
 
+        /**
+         * Updates the status table with the new data.
+         * Clears the existing table rows and repopulates it with updated data.
+         * @param data - The new status data for the URLs.
+         */
         function updateTable(data) {
             const tableBody = document.querySelector('tbody');
-            tableBody.innerHTML = ''; // Clear existing rows
+            tableBody.innerHTML = '';
 
             data.forEach(entry => {
                 const row = document.createElement('tr');
+
+                // Create a table cell with a hyperlink to the URL
                 const urlCell = document.createElement('td');
                 const link = document.createElement('a');
                 link.href = entry.url;
                 link.textContent = entry.url;
-                link.target = "_blank"; // Open link in a new tab
+                link.target = "_blank";
                 urlCell.appendChild(link);
 
+                // Create a table cell to display the status (Online/Offline)
                 const statusCell = document.createElement('td');
                 if (entry.status) {
                     statusCell.innerHTML = '<span class="status-online">Online</span>';
@@ -75,6 +85,7 @@
                     statusCell.innerHTML = '<span class="status-offline">Offline</span>';
                 }
 
+                // Append the cells to the row and the row to the table body
                 row.appendChild(urlCell);
                 row.appendChild(statusCell);
                 tableBody.appendChild(row);
@@ -98,13 +109,14 @@
            th:disabled="${!canToggleEmail}">
 </form>
 
-<!-- Form to add new website -->
+<!-- Form to add a new website -->
 <form th:action="@{/add-website}" method="post" onsubmit="addUrl(event)">
     <label for="newWebsite">Add New Website:</label>
     <input type="text" id="newWebsite" name="newWebsite" placeholder="https://example.com" required>
     <button type="submit">Add Website</button>
 </form>
 
+<!-- Table displaying the status of each URL -->
 <table>
     <thead>
     <tr>
