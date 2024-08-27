@@ -87,7 +87,7 @@ Server Dashboard is a Kotlin-based Spring Boot application designed to monitor t
    Once the application is running, open your web browser and navigate to:
 
     ```
-    http://localhost:8080/
+    http://localhost:8081/
     ```
 
 2. **Managing Websites**:
