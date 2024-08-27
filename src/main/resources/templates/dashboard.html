@@ -20,7 +20,7 @@
             color: green;
         }
         .status-offline {
-            color: gray;
+            color: red;
         }
         .info-box {
             padding: 15px;
@@ -62,9 +62,13 @@
             data.forEach(entry => {
                 const row = document.createElement('tr');
                 const urlCell = document.createElement('td');
-                const statusCell = document.createElement('td');
+                const link = document.createElement('a');
+                link.href = entry.url;
+                link.textContent = entry.url;
+                link.target = "_blank"; // Open link in a new tab
+                urlCell.appendChild(link);
 
-                urlCell.textContent = entry.url;
+                const statusCell = document.createElement('td');
                 if (entry.status) {
                     statusCell.innerHTML = '<span class="status-online">Online</span>';
                 } else {
@@ -110,7 +114,9 @@
     </thead>
     <tbody>
     <tr th:each="entry : ${urlStatuses}">
-        <td th:text="${entry.key}"></td>
+        <td>
+            <a th:href="${entry.key}" th:text="${entry.key}" target="_blank"></a>
+        </td>
         <td>
             <span th:if="${entry.value}" class="status-online">Online</span>
             <span th:if="${!entry.value}" class="status-offline">Offline</span>

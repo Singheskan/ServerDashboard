@@ -21,6 +21,7 @@ class ServerDashboardService(
     @Value("\${app.email.recipient}")
     private lateinit var recipientEmail: String
 
+    @Value("\${app.website.urls}")
     private val websiteUrls: MutableList<String> = mutableListOf()
 
     private val urlStatuses: MutableMap<String, Boolean> = mutableMapOf()
